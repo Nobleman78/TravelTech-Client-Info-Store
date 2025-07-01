@@ -5,7 +5,7 @@ const ClientInfo = () => {
     const [clientData, setClientData] = useState([]);
 
     useEffect(() => {
-        axios.get('https://client-information-server.vercel.app/client-information')
+        axios.get('https://client-server-taupe.vercel.app/client-information')
             .then(res => setClientData(res.data))
             .catch(err => console.error('Error fetching data:', err));
     }, []);
@@ -18,7 +18,7 @@ const ClientInfo = () => {
                     <h2 className='text-3xl font-semibold inline-block relative'>
                         Welcome To The Client Information
                         <span className="block h-[2px] w-full bg-[#a41d21] mx-auto mt-2 rounded"></span>
-                    </h2>   
+                    </h2>
                 </div>
 
                 {/* Client Entries */}
