@@ -16,7 +16,7 @@ const Home = () => {
         const clientInfo = { name, phoneNumber, purpose };
 
         try {
-            const response = await fetch('https://client-information-server.vercel.app/client-information', {
+            const response = await fetch('https://client-server-taupe.vercel.app/client-information', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
