@@ -5,7 +5,7 @@ const ClientInfo = () => {
     const [clientData, setClientData] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/client-information')
+        axios.get('https://client-information-server.vercel.app/client-information')
             .then(res => setClientData(res.data))
             .catch(err => console.error('Error fetching data:', err));
     }, []);
