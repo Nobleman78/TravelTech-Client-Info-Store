@@ -12,7 +12,7 @@ const ClientInfo = () => {
 
     return (
         <div className='bg-[#2193b0] py-10 min-h-screen'>
-            <div className='sm:max-w-4xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8'>
+            <div className='sm:max-w-5xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8 '>
                 {/* Header */}
                 <div className='text-center mb-8'>
                     <h2 className='text-3xl font-semibold inline-block relative'>
@@ -25,7 +25,7 @@ const ClientInfo = () => {
                 {clientData.length > 0 ? (
                     <div className=''>
                         {clientData.map((client, index) => (
-                            <div key={index} className='pb-6 flex flex-col gap-3'>
+                            <div key={index} className='pb-6 flex flex-col gap-3 border-t  '>
                                 <div className='flex flex-col gap-2  px-10 py-3'>
                                     <h2 className='text-xl font-medium'>Date and Time</h2>
                                     <p className='text-gray-700'>{client.createdAt || 'N/A'}</p>
