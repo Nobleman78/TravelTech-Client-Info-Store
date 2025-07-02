@@ -1,8 +1,18 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import AuthContext from '../../Context/Authcontext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ClientInfo = () => {
+    const { user } = useContext(AuthContext)
     const [clientData, setClientData] = useState([]);
+    const navigate = useNavigate()
+    const location = useLocation()
+    useEffect(() => {
+        if (!user) {
+            navigate('/login', { replace: true, state: { from: location } })
+        }
+    }, [user, navigate, location])
 
     useEffect(() => {
         axios.get('https://client-server-taupe.vercel.app/client-information')
@@ -10,7 +20,7 @@ const ClientInfo = () => {
             .catch(err => console.error('Error fetching data:', err));
     }, []);
 
-    return (
+    return user?.email ? (
         <div className='bg-[#2193b0] py-10 min-h-screen'>
             <div className='sm:max-w-5xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8 '>
                 {/* Header */}
@@ -46,11 +56,11 @@ const ClientInfo = () => {
                         ))}
                     </div>
                 ) : (
-                    <p className="text-center text-gray-600">No client data available yet.</p>
+                    <p className="text-center text-gray-600">No client data available yet or You should login</p>
                 )}
             </div>
         </div>
-    );
+    ) : navigate('/login');
 };
 
 export default ClientInfo;

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import LoginLottie from '../../../assets/Animation - 1751441402257.json'
 import Lottie from 'lottie-react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '../../Context/Authcontext';
 
 const Login = () => {
@@ -10,6 +10,9 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [success, setSuccess] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
+    console.log(from)
     const handleLogin = (event) => {
         event.preventDefault();
         const form = event.target
@@ -19,7 +22,8 @@ const Login = () => {
             .then(res => {
                 console.log(res.user)
                 setSuccess(true)
-                navigate('/')
+                console.log('Navigating to ', from)
+                navigate(from, { replace: true })
 
             })
             .catch(error => {
@@ -56,7 +60,7 @@ const Login = () => {
                                         <span className='text-sm remember-me ' >Remember Me</span>
                                     </div>
                                     <div className='flex items-center gap-2'>
-                                       
+
                                         <a className='text-sm remember-me cursor-pointer ' >Forget Password</a>
                                     </div>
                                 </div>
