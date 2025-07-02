@@ -83,16 +83,7 @@ const Navbar = () => {
 
                         </>
                     ) : (
-                        <NavLink
-                            to='/login'
-                            className={({ isActive }) =>
-                                isActive
-                                    ? 'border-b-2 border-[#a41d21] pb-1'
-                                    : 'hover:border-b hover:border-[#a41d21] pb-1'
-                            }
-                        >
-                            LOGIN
-                        </NavLink>
+                        <NavLink to='/login' className='bg-green-500 px-5 transition hover:bg-green-700 py-2 rounded text-white '>Login</NavLink>
                     )}
                 </div>
             </div>
