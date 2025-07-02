@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import LoginLottie from '../../../assets/Animation - 1751441402257.json'
 import Lottie from 'lottie-react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../../Context/Authcontext';
 
 const Login = () => {
+    const { signInWithEmailandPassword } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const navigate = useNavigate()
     const handleLogin = (event) => {
         event.preventDefault();
         const form = event.target
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password)
+        signInWithEmailandPassword(email, password)
+            .then(res => {
+                console.log(res.user)
+                setSuccess(true)
+                navigate('/')
 
-
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
     }
+    success && alert('Login Successfull')
     return (
         <div className='bg-blue-50'>
             <div className='sm:max-w-5xl mx-auto'>

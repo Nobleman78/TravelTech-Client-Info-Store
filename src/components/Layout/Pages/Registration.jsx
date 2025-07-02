@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import RegistrationLottie from '../../../assets/Animation - 1751447315104 (1).json'
 import Lottie from 'lottie-react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../Context/Authcontext';
 const Registration = () => {
+    const { createUser } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState(false);
+
     const isStrongPassword = (password) => {
         const minLength = 8;
         const hasUppercase = /[A-Z]/.test(password);
@@ -21,19 +24,32 @@ const Registration = () => {
     };
     const handleSignUp = (event) => {
         event.preventDefault();
-        const form = event.target
-        const name = form.name.value;
+        const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name,email.password)
 
+        // Password strength validation
         if (!isStrongPassword(password)) {
-            alert(
-                "Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character."
-            );
+            alert('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
             return;
         }
+
+        createUser(email, password)
+            .then(result => {
+                console.log(result.user);
+                alert('Sign Up Successfull')
+                form.reset()
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    alert('User with this email already exists!');
+                } else {
+                    alert(error.message);
+                }
+            });
+
     }
+
     return (
         <div className='bg-blue-50'>
             <div className='sm:max-w-5xl mx-auto'>
@@ -57,14 +73,11 @@ const Registration = () => {
                                         }
                                     </div>
                                 </div>
-                                <button onClick={() => scrollTo(0, 0)} className=" w-[100%] my-2 py-1 cursor-pointer bg-blue-700 text-white" >Sign in</button>
+                                <button onClick={() => scrollTo(0, 0)} className=" w-[100%] my-2 py-1 cursor-pointer bg-blue-700 text-white" >Sign up</button>
                                 <div className="flex flex-col sm:flex-row text-center  gap-2 mt-2">
                                     <Link to='/login'><button className="cursor-pointer">Have an account? Login</button></Link>
                                 </div>
-
                             </div>
-
-
                         </form>
                     </div>
                 </div>
