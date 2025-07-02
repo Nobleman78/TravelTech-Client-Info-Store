@@ -5,7 +5,7 @@ import AuthContext from '../../Context/Authcontext';
 import { FaCircleUser } from "react-icons/fa6";
 
 const Navbar = () => {
-    const { user } = useContext(AuthContext);
+    const { user,signOutUser } = useContext(AuthContext);
     const [showUser, setShowUser] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -75,7 +75,7 @@ const Navbar = () => {
 
                                     <hr className='border-t border-gray-200' />
 
-                                    <button className='w-full bg-[#a41d21] hover:bg-[#841519] text-white font-semibold py-2 rounded-md transition duration-200'>
+                                    <button onClick={()=>signOutUser()} className='w-full bg-[#a41d21] hover:bg-[#841519] text-white font-semibold py-2 rounded-md transition duration-200'>
                                         Logout
                                     </button>
                                 </div>

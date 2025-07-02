@@ -55,6 +55,10 @@ const Login = () => {
                                         <input type="checkbox" />
                                         <span className='text-sm remember-me ' >Remember Me</span>
                                     </div>
+                                    <div className='flex items-center gap-2'>
+                                       
+                                        <a className='text-sm remember-me cursor-pointer ' >Forget Password</a>
+                                    </div>
                                 </div>
                                 <button onClick={() => scrollTo(0, 0)} className=" w-[100%] my-2 py-1 cursor-pointer bg-blue-700 text-white" >Sign in</button>
                                 <div className="flex flex-col sm:flex-row text-center  gap-2 mt-2">
