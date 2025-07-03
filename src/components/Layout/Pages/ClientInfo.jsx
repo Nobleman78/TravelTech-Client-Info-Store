@@ -43,7 +43,7 @@ const ClientInfo = () => {
 
     return (
         <div className='bg-[#2193b0] py-10 min-h-screen'>
-            <div className='sm:max-w-5xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8'>
+            <div className='sm:max-w-6xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8'>
                 <div className='text-center mb-8'>
                     <h2 className='text-3xl font-semibold inline-block relative'>
                         Welcome To The Client Information
@@ -56,27 +56,29 @@ const ClientInfo = () => {
                         <span className="text-xl font-medium text-gray-600 animate-pulse">Loading client data...</span>
                     </div>
                 ) : clientData.length > 0 ? (
-                    <div>
-                        {clientData.map((client, index) => (
-                            <div key={index} className='pb-6 flex flex-col gap-3 border-t'>
-                                <div className='flex flex-col gap-2 px-10 py-3'>
-                                    <h2 className='text-xl font-medium'>Date and Time</h2>
-                                    <p className='text-gray-700'>{client.createdAt || 'N/A'}</p>
-                                </div>
-                                <div className='flex flex-col gap-2 px-10 py-3'>
-                                    <h2 className='text-xl font-medium'>Client Name</h2>
-                                    <p className='text-gray-700'>{client.name}</p>
-                                </div>
-                                <div className='flex flex-col gap-2 px-10 py-3'>
-                                    <h2 className='text-xl font-medium'>Client Phone Number</h2>
-                                    <p className='text-gray-700'>{client.phoneNumber}</p>
-                                </div>
-                                <div className='flex flex-col gap-2 px-10 py-3'>
-                                    <h2 className='text-xl font-medium'>Purpose</h2>
-                                    <p className='text-gray-700'>{client.purpose}</p>
-                                </div>
-                            </div>
-                        ))}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-200 text-left text-sm">
+                            <thead>
+                                <tr className="bg-[#2193b0] text-white">
+                                    <th className="px-6 py-3">#</th>
+                                    <th className="px-6 py-3">Date & Time</th>
+                                    <th className="px-6 py-3">Client Name</th>
+                                    <th className="px-6 py-3">Phone Number</th>
+                                    <th className="px-6 py-3">Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {clientData.map((client, index) => (
+                                    <tr key={index} className="border-b hover:bg-gray-50">
+                                        <td className="px-6 py-3">{index + 1}</td>
+                                        <td className="px-6 py-3">{client.createdAt || 'N/A'}</td>
+                                        <td className="px-6 py-3">{client.name}</td>
+                                        <td className="px-6 py-3">{client.phoneNumber}</td>
+                                        <td className="px-6 py-3">{client.purpose}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 ) : (
                     <p className="text-center text-gray-600">No client data available yet or You should login</p>
