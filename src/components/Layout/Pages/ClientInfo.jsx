@@ -8,6 +8,7 @@ const ClientInfo = () => {
     const [clientData, setClientData] = useState([]);
     const navigate = useNavigate()
     const location = useLocation()
+
     useEffect(() => {
         if (!user) {
             navigate('/login', { replace: true, state: { from: location } })
@@ -15,10 +16,25 @@ const ClientInfo = () => {
     }, [user, navigate, location])
 
     useEffect(() => {
-        axios.get('https://client-server-taupe.vercel.app/client-information')
-            .then(res => setClientData(res.data))
-            .catch(err => console.error('Error fetching data:', err));
-    }, []);
+        const token = localStorage.getItem('access-token');
+        if (token) {
+            axios.get('https://client-server-taupe.vercel.app/client-information', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(res => setClientData(res.data))
+                .catch(err => {
+                    console.error('Error fetching data:', err);
+                    if (err.response?.status === 401 || err.response?.status === 403) {
+                        navigate('/login', { replace: true, state: { from: location } });
+                    }
+                });
+        } else {
+            navigate('/login', { replace: true, state: { from: location } });
+        }
+    }, [navigate, location]);
+
 
     return user?.email ? (
         <div className='bg-[#2193b0] py-10 min-h-screen'>

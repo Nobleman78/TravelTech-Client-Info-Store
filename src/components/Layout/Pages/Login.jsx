@@ -4,6 +4,7 @@ import Lottie from 'lottie-react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '../../Context/Authcontext';
+import UseAxiosPublic from '../../Hooks/UseAxiosPublic';
 
 const Login = () => {
     const { signInWithEmailandPassword } = useContext(AuthContext)
@@ -18,9 +19,20 @@ const Login = () => {
         const form = event.target
         const email = form.email.value;
         const password = form.password.value;
+        const axiosPublic = UseAxiosPublic();
         signInWithEmailandPassword(email, password)
             .then(res => {
                 console.log(res.user)
+                const userInfo = {
+                    email: res.user?.email  
+                    
+                }
+                console.log(userInfo)
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data)
+                    })
+
                 setSuccess(true)
                 console.log('Navigating to ', from)
                 navigate(from, { replace: true })
