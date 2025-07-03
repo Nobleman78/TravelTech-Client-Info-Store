@@ -4,40 +4,46 @@ import AuthContext from '../../Context/Authcontext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const ClientInfo = () => {
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
     const [clientData, setClientData] = useState([]);
-    const navigate = useNavigate()
-    const location = useLocation()
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         if (!user) {
-            navigate('/login', { replace: true, state: { from: location } })
+            navigate('/login', { replace: true, state: { from: location } });
         }
-    }, [user, navigate, location])
+    }, [user, navigate, location]);
 
     useEffect(() => {
         const token = localStorage.getItem('access-token');
-        if (token) {
+        if (user?.email && token) {
+            setLoading(true);
             axios.get('https://client-server-taupe.vercel.app/client-information', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
-                .then(res => setClientData(res.data))
+                .then(res => {
+                    setClientData(res.data);
+                    setLoading(false);
+                })
                 .catch(err => {
                     console.error('Error fetching data:', err);
+                    setLoading(false);
                     if (err.response?.status === 401 || err.response?.status === 403) {
                         navigate('/login', { replace: true, state: { from: location } });
                     }
                 });
-        } 
-    }, [navigate, location]);
+        }
+    }, [user, navigate, location]);
 
+    if (!user) return null;
 
-    return user?.email ? (
+    return (
         <div className='bg-[#2193b0] py-10 min-h-screen'>
-            <div className='sm:max-w-5xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8 '>
-                {/* Header */}
+            <div className='sm:max-w-5xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8'>
                 <div className='text-center mb-8'>
                     <h2 className='text-3xl font-semibold inline-block relative'>
                         Welcome To The Client Information
@@ -45,24 +51,27 @@ const ClientInfo = () => {
                     </h2>
                 </div>
 
-                {/* Client Entries */}
-                {clientData.length > 0 ? (
-                    <div className=''>
+                {loading ? (
+                    <div className="text-center py-10">
+                        <span className="text-xl font-medium text-gray-600 animate-pulse">Loading client data...</span>
+                    </div>
+                ) : clientData.length > 0 ? (
+                    <div>
                         {clientData.map((client, index) => (
-                            <div key={index} className='pb-6 flex flex-col gap-3 border-t  '>
-                                <div className='flex flex-col gap-2  px-10 py-3'>
+                            <div key={index} className='pb-6 flex flex-col gap-3 border-t'>
+                                <div className='flex flex-col gap-2 px-10 py-3'>
                                     <h2 className='text-xl font-medium'>Date and Time</h2>
                                     <p className='text-gray-700'>{client.createdAt || 'N/A'}</p>
                                 </div>
-                                <div className='flex flex-col gap-2  px-10 py-3'>
+                                <div className='flex flex-col gap-2 px-10 py-3'>
                                     <h2 className='text-xl font-medium'>Client Name</h2>
                                     <p className='text-gray-700'>{client.name}</p>
                                 </div>
-                                <div className='flex flex-col gap-2  px-10 py-3'>
+                                <div className='flex flex-col gap-2 px-10 py-3'>
                                     <h2 className='text-xl font-medium'>Client Phone Number</h2>
                                     <p className='text-gray-700'>{client.phoneNumber}</p>
                                 </div>
-                                <div className='flex flex-col gap-2  px-10 py-3'>
+                                <div className='flex flex-col gap-2 px-10 py-3'>
                                     <h2 className='text-xl font-medium'>Purpose</h2>
                                     <p className='text-gray-700'>{client.purpose}</p>
                                 </div>
@@ -74,7 +83,7 @@ const ClientInfo = () => {
                 )}
             </div>
         </div>
-    ) : navigate('/login');
+    );
 };
 
 export default ClientInfo;
