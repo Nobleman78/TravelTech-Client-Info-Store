@@ -24,18 +24,19 @@ const Login = () => {
             .then(res => {
                 console.log(res.user)
                 const userInfo = {
-                    email: res.user?.email  
-                    
+                    email: res.user?.email
+
                 }
-                console.log(userInfo)
-                axiosPublic.post('/users', userInfo)
+                axiosPublic.post('/jwt', userInfo)
                     .then(res => {
+                        localStorage.setItem('access-token', res.data.token);
+                        navigate(from, { replace: true })
                         console.log(res.data)
                     })
 
                 setSuccess(true)
-                console.log('Navigating to ', from)
-                navigate(from, { replace: true })
+               
+
 
             })
             .catch(error => {

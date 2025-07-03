@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const ClientInfo = () => {
     const { user } = useContext(AuthContext);
+    console.log(user)
     const [clientData, setClientData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(false);
