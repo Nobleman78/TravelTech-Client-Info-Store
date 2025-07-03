@@ -13,7 +13,7 @@ const Navbar = () => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if ( !dropdownRef.current.contains(event.target)) {
+            if (!dropdownRef.current.contains(event.target)) {
                 setShowUser(false);
             }
         };
@@ -28,12 +28,11 @@ const Navbar = () => {
 
     return (
         <div className="shadow-md py-3 bg-white sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 text-[#a41d21]">
-                
+            <div className="max-w-6xl mx-auto flex items-center justify-between px-4 md:px-8 text-[#a41d21]">
+
                 {/* Logo */}
-                <div className="flex items-center gap-3">
-                    <img src={logo} alt="website-logo" className="w-16 h-16 object-contain" />
-                    <span className="text-xl font-bold hidden sm:inline">TTBD</span>
+                <div>
+                    <img src={logo} alt='website-logo' className='w-20 h-20' />
                 </div>
 
                 {/* Desktop Links */}
