@@ -30,9 +30,7 @@ const ClientInfo = () => {
                         navigate('/login', { replace: true, state: { from: location } });
                     }
                 });
-        } else {
-            navigate('/login', { replace: true, state: { from: location } });
-        }
+        } 
     }, [navigate, location]);
 
 
