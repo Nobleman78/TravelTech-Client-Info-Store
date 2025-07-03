@@ -39,17 +39,17 @@ const Home = () => {
     };
 
     return (
-        <div className="bg-[#2193b0] py-10 min-h-screen">
-            <div className="sm:max-w-4xl mx-auto">
-                <form onSubmit={handleSubmit} className="bg-white shadow-2xl rounded-xl p-8">
+        <div className="bg-[#2193b0] py-10 min-h-screen px-4">
+            <div className="max-w-4xl mx-auto">
+                <form onSubmit={handleSubmit} className="bg-white shadow-2xl rounded-xl p-6 sm:p-8">
                     <h2 className="text-center text-2xl font-serif mb-8">
                         Enter The Client Information
                     </h2>
 
-                    <div className="px-2 md:px-10 flex flex-col gap-10">
+                    <div className="flex flex-col gap-8">
                         {/* Name and Phone Number */}
-                        <div className="flex flex-col md:flex-row justify-between w-full gap-5">
-                            <div className="flex flex-col gap-3 w-full md:w-1/2">
+                        <div className="flex flex-col md:flex-row gap-6">
+                            <div className="w-full">
                                 <label className="text-lg">Client Name</label>
                                 <input
                                     type="text"
@@ -58,10 +58,11 @@ const Home = () => {
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     placeholder="Enter Client Name"
-                                    className="w-full outline-none border px-5 py-2 rounded-md shadow-sm focus:ring-1 focus:ring-[#a41d21]"
+                                    className="w-full mt-1 outline-none border px-4 py-2 rounded-md shadow-sm focus:ring-1 focus:ring-[#a41d21]"
                                 />
                             </div>
-                            <div className="flex flex-col gap-3 w-full md:w-1/2">
+
+                            <div className="w-full">
                                 <label className="text-lg">Client Phone Number</label>
                                 <input
                                     type="text"
@@ -76,29 +77,29 @@ const Home = () => {
                                     }}
                                     maxLength={11}
                                     placeholder="Enter Phone Number"
-                                    className="w-full outline-none border px-5 py-2 rounded-md shadow-sm focus:ring-1 focus:ring-[#a41d21]"
+                                    className="w-full mt-1 outline-none border px-4 py-2 rounded-md shadow-sm focus:ring-1 focus:ring-[#a41d21]"
                                 />
                             </div>
                         </div>
 
                         {/* Purpose */}
-                        <div className="flex flex-col gap-3">
+                        <div className="w-full">
                             <label className="text-lg">Purpose</label>
-                            <input
+                            <textarea
                                 required
-                                type="text"
                                 name="purpose"
                                 value={purpose}
                                 onChange={(e) => setPurpose(e.target.value)}
                                 placeholder="Enter The Purpose"
-                                className="w-full outline-none border px-5 py-10 rounded-md shadow-sm focus:ring-1 focus:ring-[#a41d21]"
+                                rows={4}
+                                className="w-full mt-1 outline-none border px-4 py-3 rounded-md shadow-sm focus:ring-1 focus:ring-[#a41d21]"
                             />
                         </div>
 
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="bg-[#a41d21] py-2 text-white rounded-xl hover:bg-red-800 transition-all"
+                            className="bg-[#a41d21] py-2 text-white rounded-xl hover:bg-red-800 transition-all w-full"
                         >
                             Submit
                         </button>
