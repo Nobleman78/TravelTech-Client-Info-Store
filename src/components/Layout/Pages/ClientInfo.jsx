@@ -6,7 +6,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const ClientInfo = () => {
     const { user } = useContext(AuthContext);
     const [clientData, setClientData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [searchDate, setSearchDate] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -27,6 +29,7 @@ const ClientInfo = () => {
             })
                 .then(res => {
                     setClientData(res.data);
+                    setFilteredData(res.data); // initialize full list
                     setLoading(false);
                 })
                 .catch(err => {
@@ -39,11 +42,29 @@ const ClientInfo = () => {
         }
     }, [user, navigate, location]);
 
+    const handleSearch = () => {
+        if (!searchDate) {
+            setFilteredData(clientData); 
+            return;
+        }
+
+        const filtered = clientData.filter(client => {
+            if (!client.createdAt) {
+                return false;
+            }
+            const clientDate = new Date(client.createdAt).toISOString().split('T')[0];
+            return clientDate === searchDate;
+        });
+
+        setFilteredData(filtered);
+    };
+
     if (!user) return null;
 
     return (
         <div className='bg-[#2193b0] py-10 min-h-screen'>
             <div className='sm:max-w-6xl mx-auto bg-white shadow-2xl rounded-xl py-10 px-8'>
+                {/* Header */}
                 <div className='text-center mb-8'>
                     <h2 className='text-3xl font-semibold inline-block relative'>
                         Welcome To The Client Information
@@ -51,11 +72,28 @@ const ClientInfo = () => {
                     </h2>
                 </div>
 
+                {/* Search bar */}
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-end mb-6">
+                    <input
+                        type="date"
+                        value={searchDate}
+                        onChange={(e) => setSearchDate(e.target.value)}
+                        className="border border-gray-300 px-4 py-2 rounded-md shadow-sm"
+                    />
+                    <button
+                        onClick={handleSearch}
+                        className="bg-[#2193b0] text-white px-4 py-2 rounded hover:bg-[#197199]"
+                    >
+                        Search
+                    </button>
+                </div>
+
+                {/* Loading Spinner */}
                 {loading ? (
                     <div className="text-center py-10">
                         <span className="text-xl font-medium text-gray-600 animate-pulse">Loading client data...</span>
                     </div>
-                ) : clientData.length > 0 ? (
+                ) : filteredData.length > 0 ? (
                     <div className="overflow-x-auto">
                         <table className="min-w-full border border-gray-200 text-left text-sm">
                             <thead>
@@ -68,7 +106,7 @@ const ClientInfo = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {clientData.map((client, index) => (
+                                {filteredData.map((client, index) => (
                                     <tr key={index} className="border-b hover:bg-gray-50">
                                         <td className="px-6 py-3">{index + 1}</td>
                                         <td className="px-6 py-3">{client.createdAt || 'N/A'}</td>
@@ -81,7 +119,7 @@ const ClientInfo = () => {
                         </table>
                     </div>
                 ) : (
-                    <p className="text-center text-gray-600">No client data available yet or You should login</p>
+                    <p className="text-center text-gray-600">No matching data found for this date.</p>
                 )}
             </div>
         </div>
