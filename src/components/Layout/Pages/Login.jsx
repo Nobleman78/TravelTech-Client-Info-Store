@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import LoginLottie from '../../../assets/Animation - 1751441402257.json'
 import Lottie from 'lottie-react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -7,11 +7,12 @@ import AuthContext from '../../Context/Authcontext';
 import UseAxiosPublic from '../../Hooks/UseAxiosPublic';
 
 const Login = () => {
-    const { signInWithEmailandPassword } = useContext(AuthContext)
+    const { signInWithEmailandPassword, handleForgetPassword } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState(false)
     const [success, setSuccess] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
+    const emailRef = useRef()
     const from = location.state?.from?.pathname || '/'
     console.log(from)
     const handleLogin = (event) => {
@@ -35,15 +36,22 @@ const Login = () => {
                     })
 
                 setSuccess(true)
-               
-
-
             })
-            .catch(error => {
-                console.log(error.message);
+            .catch(error=>{
+                alert('Invalid Email or Password',error)
             })
     }
+
     success && alert('Login Successfull')
+    
+
+    const ForgetPassword = () => {
+        const email = emailRef.current?.value
+        handleForgetPassword(email)
+            .then(() => {
+                alert('Password reset link sent to the Gmail , Please Check!!!')
+            })
+    }
     return (
         <div className='bg-blue-50'>
             <div className='sm:max-w-5xl mx-auto'>
@@ -56,7 +64,7 @@ const Login = () => {
                             <div className="flex flex-col gap-1 ">
                                 <div className="flex mt-3 flex-col gap-2">
                                     <label>Email</label>
-                                    <input name="email" required className="w-[100%] px-2 border outline-none shadow-none rounded py-1" type="email" placeholder='Enter Your Email' />
+                                    <input ref={emailRef} name="email" required className="w-[100%] px-2 border outline-none shadow-none rounded py-1" type="email" placeholder='Enter Your Email' />
                                 </div>
                                 <div className="flex flex-col gap-2 relative">
                                     <label>Password</label>
@@ -73,8 +81,7 @@ const Login = () => {
                                         <span className='text-sm remember-me ' >Remember Me</span>
                                     </div>
                                     <div className='flex items-center gap-2'>
-
-                                        <a className='text-sm remember-me cursor-pointer ' >Forget Password</a>
+                                        <a onClick={ForgetPassword} className='text-sm remember-me cursor-pointer ' >Forget Password</a>
                                     </div>
                                 </div>
                                 <button onClick={() => scrollTo(0, 0)} className=" w-[100%] my-2 py-1 cursor-pointer bg-blue-700 text-white" >Sign in</button>

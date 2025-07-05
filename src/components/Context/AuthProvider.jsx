@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import AuthContext from './Authcontext';
 import { auth } from '../Utility/Firebase';
 import UseAxiosPublic from '../Hooks/UseAxiosPublic';
 
 const AuthProvider = ({ children }) => {
-
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
     const axiosPublic = UseAxiosPublic()
@@ -15,6 +14,17 @@ const AuthProvider = ({ children }) => {
     }
     const signInWithEmailandPassword = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password)
+    }
+    const handleForgetPassword = (email) => {
+        console.log(email);
+        if (!email) {
+            alert('Please Provide an email to reset password')
+        }
+        else {
+            return sendPasswordResetEmail(auth, email)
+
+        }
+
     }
 
     const signOutUser = () => {
@@ -41,7 +51,6 @@ const AuthProvider = ({ children }) => {
             else {
                 localStorage.removeItem('access-token');
             }
-
             setLoading(false);
         });
         return () => unsubscribe();
@@ -52,7 +61,7 @@ const AuthProvider = ({ children }) => {
 
     const value = {
         user, loading, createUser, signInWithEmailandPassword,
-        signOutUser
+        signOutUser ,handleForgetPassword
 
     }
 

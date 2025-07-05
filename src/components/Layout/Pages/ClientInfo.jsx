@@ -14,12 +14,6 @@ const ClientInfo = () => {
     const location = useLocation();
 
     useEffect(() => {
-        if (!user) {
-            navigate('/login', { replace: true, state: { from: location } });
-        }
-    }, [user, navigate, location]);
-
-    useEffect(() => {
         const token = localStorage.getItem('access-token');
         if (user?.email && token) {
             setLoading(true);

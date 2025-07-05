@@ -14,7 +14,6 @@ const Home = () => {
         }
 
         const clientInfo = { name, phoneNumber, purpose };
-
         try {
             const response = await fetch('https://client-server-taupe.vercel.app/client-information', {
                 method: 'POST',
@@ -25,8 +24,15 @@ const Home = () => {
             });
 
             const data = await response.json();
-            console.log('Server response:', data);
-            alert('Client information saved successfully!');
+            if (!response.ok) {
+                if (data.duplicate) {
+                    alert(data.message);
+                } 
+                return;
+            }
+            else {
+                alert('Client information saved successfully!');
+            }
 
             // Clear input fields
             setName('');
