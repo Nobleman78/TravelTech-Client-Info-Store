@@ -59,7 +59,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                     <hr className="border-t border-gray-200" />
-                                    <button onClick={signOutUser} className="w-full bg-[#a41d21] hover:bg-[#841519] text-white font-semibold py-2 rounded-md">
+                                    <button onClick={signOutUser} className="w-full cursor-pointer bg-[#a41d21] hover:bg-[#841519] text-white font-semibold py-2 rounded-md">
                                         Logout
                                     </button>
                                 </div>

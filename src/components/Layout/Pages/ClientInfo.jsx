@@ -172,7 +172,7 @@ const ClientInfo = () => {
                     <button
                         onClick={downloadPDF}
                         disabled={filteredData.length === 0}
-                        className={`w-full sm:w-auto bg-[#a41d21] text-white px-4 py-2 rounded hover:bg-[#82171a] text-sm ${filteredData.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`w-full sm:w-auto bg-[#a41d21] cursor-pointer text-white px-4 py-2 rounded hover:bg-[#82171a] text-sm ${filteredData.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                         Download PDF
                     </button>

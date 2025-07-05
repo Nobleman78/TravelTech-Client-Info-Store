@@ -105,7 +105,7 @@ const Home = () => {
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="bg-[#a41d21] py-2 text-white rounded-xl hover:bg-red-800 transition-all w-full"
+                            className="bg-[#a41d21] py-2 cursor-pointer text-white rounded-xl hover:bg-red-800 transition-all w-full"
                         >
                             Submit
                         </button>
