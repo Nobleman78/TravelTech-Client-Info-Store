@@ -27,7 +27,7 @@ const Home = () => {
             if (!response.ok) {
                 if (data.duplicate) {
                     alert(data.message);
-                } 
+                }
                 return;
             }
             else {
@@ -45,9 +45,9 @@ const Home = () => {
     };
 
     return (
-        <div className="bg-[#2193b0] py-10 min-h-screen px-4">
-            <div className="max-w-4xl mx-auto">
-                <form onSubmit={handleSubmit} className="bg-white shadow-2xl rounded-xl p-6 sm:p-8">
+        <div className="bg-[#2193b0] lg:py-10 lg:min-h-screen px-4">
+            <div className="fixed lg:relative top-40 lg:top-0 left-0 lg:left-auto w-full h-screen bg-[#2193b0] px-4 lg:px-20 py-10 overflow-hidden">
+                <form onSubmit={handleSubmit} className="bg-white  shadow-2xl rounded-xl p-6 sm:p-8">
                     <h2 className="text-center text-2xl font-serif mb-8">
                         Enter The Client Information
                     </h2>
