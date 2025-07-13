@@ -23,18 +23,18 @@ const ClientInfo = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-            .then(res => {
-                setClientData(res.data);
-                setFilteredData(res.data);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error('Error fetching data:', err);
-                setLoading(false);
-                if (err.response?.status === 401 || err.response?.status === 403) {
-                    navigate('/login', { replace: true, state: { from: location } });
-                }
-            });
+                .then(res => {
+                    setClientData(res.data);
+                    setFilteredData(res.data);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.error('Error fetching data:', err);
+                    setLoading(false);
+                    if (err.response?.status === 401 || err.response?.status === 403) {
+                        navigate('/login', { replace: true, state: { from: location } });
+                    }
+                });
         }
     }, [user, navigate, location]);
 
@@ -58,13 +58,13 @@ const ClientInfo = () => {
             orientation: 'landscape',
             unit: 'mm'
         });
-        
+
         // Title
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(20);
         doc.setTextColor(33, 147, 176);
         doc.text('Client Information Report', 105, 15, { align: 'center' });
-        
+
         // Subtitle with date if filtered
         doc.setFontSize(12);
         doc.setTextColor(100);
@@ -74,16 +74,16 @@ const ClientInfo = () => {
         } else {
             doc.text('All Client Records', 105, subtitleY, { align: 'center' });
         }
-        
+
         // Prepare table data
         const headers = [
-            '#', 
-            'Date & Time', 
-            'Client Name', 
-            'Phone Number', 
+            '#',
+            'Date & Time',
+            'Client Name',
+            'Phone Number',
             'Purpose'
         ];
-        
+
         const tableData = filteredData.map((client, index) => [
             index + 1,
             client.createdAt ? new Date(client.createdAt).toLocaleString() : 'N/A',
@@ -91,7 +91,7 @@ const ClientInfo = () => {
             client.phoneNumber || 'N/A',
             client.purpose || 'N/A'
         ]);
-        
+
         // Add the table
         autoTable(doc, {
             head: [headers],
@@ -133,7 +133,7 @@ const ClientInfo = () => {
                 );
             }
         });
-        
+
         // Save the PDF
         const fileName = `client_report_${searchDate || 'all'}_${new Date().toISOString().slice(0, 10)}.pdf`;
         doc.save(fileName);
@@ -143,8 +143,24 @@ const ClientInfo = () => {
 
     return (
         <div className='bg-[#2193b0] py-10 min-h-screen px-4 sm:px-8'>
+
             <div className='sm:max-w-6xl mx-auto bg-white shadow-2xl rounded-xl py-8 px-4 sm:px-8'>
-                
+                <button
+                    onClick={() => navigate('/')}
+                    className="flex items-center visible lg:invisible  gap-1 text-sm sm:text-base underline lg:text-lg font-medium"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-3 sm:h-5 sm:w-5 lg:h-6 lg:w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                   Home
+                </button>
+
                 {/* Header */}
                 <div className='text-center mb-8'>
                     <h2 className='text-2xl sm:text-3xl font-semibold inline-block relative'>
